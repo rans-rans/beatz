@@ -1,0 +1,1 @@
+double minimizedPlayerHeight = 75;
