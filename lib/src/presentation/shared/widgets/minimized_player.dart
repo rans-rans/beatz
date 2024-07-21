@@ -5,7 +5,7 @@ import 'package:beatz/shared/constants/number_constants.dart';
 import 'package:beatz/src/presentation/controllers/audio_player_provider.dart';
 import 'package:beatz/src/presentation/controllers/audio_view_provider.dart';
 import 'package:beatz/src/presentation/screens/music%20player/widgets/play_pause_button.dart';
-import 'package:beatz/src/presentation/widgets/now_playing_text.dart';
+import 'package:beatz/src/presentation/shared/widgets/now_playing_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
@@ -23,7 +23,7 @@ class _MinimizedPlayerState extends ConsumerState<MinimizedPlayer> {
     final audioProvider = ref.watch(audioPlayerProvider);
     return ClipRRect(
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 4),
         child: StreamBuilder(
             stream: audioProvider?.playerStateStream,
             builder: (context, snapshot) {

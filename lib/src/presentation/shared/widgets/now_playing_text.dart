@@ -53,6 +53,7 @@ class _NowPlayingTextState extends ConsumerState<NowPlayingText>
         if (path != currentPath) {
           currentPath = path;
           currentAudioTitle.value = audioTitle;
+          ref.read(audioPlayerProvider.notifier).setCurrentPath(path);
         }
       },
     );

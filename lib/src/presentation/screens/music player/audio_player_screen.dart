@@ -3,18 +3,27 @@ import 'dart:ui';
 
 import 'package:audio_metadata_reader/audio_metadata_reader.dart';
 import 'package:beatz/shared/constants/string_constants.dart';
+import 'package:beatz/src/presentation/shared/components/add_to_playlist_sheet.dart';
 import 'package:beatz/src/presentation/controllers/audio_player_provider.dart';
 import 'package:beatz/src/presentation/controllers/audio_view_provider.dart';
 import 'package:beatz/src/presentation/screens/music%20player/widgets/audio_slider.dart';
 import 'package:beatz/src/presentation/screens/music%20player/widgets/now_playing_buttons.dart';
-import 'package:beatz/src/presentation/widgets/now_playing_text.dart';
+import 'package:beatz/src/presentation/shared/components/audio_info_sheet.dart';
+import 'package:beatz/src/presentation/shared/widgets/now_playing_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AudioPlayerScreen extends ConsumerWidget {
+class AudioPlayerScreen extends ConsumerStatefulWidget {
   const AudioPlayerScreen({super.key});
+
   @override
-  Widget build(context, ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _AudioPlayerScreenState();
+}
+
+class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
+  String currentAudioPath = '';
+  @override
+  Widget build(context) {
     final audioPlayerNotifier = ref.watch(audioPlayerProvider.notifier);
     final audioViewNotifier = ref.read(audioViewProvider.notifier);
     return PopScope(
@@ -22,6 +31,7 @@ class AudioPlayerScreen extends ConsumerWidget {
         audioViewNotifier.minimizePlayer();
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         body: FutureBuilder(
           future: readMetadata(
             File(audioPlayerNotifier.currentAudioPath),
@@ -82,6 +92,31 @@ class AudioPlayerScreen extends ConsumerWidget {
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
+                              ),
+                              const Spacer(),
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.playlist_add,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () {
+                                  showAddToPlaylistSheet(
+                                    context,
+                                    audioPlayerNotifier.currentAudioPath,
+                                  );
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.more_vert,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () {
+                                  showAudioInfoSheet(
+                                    context,
+                                    audioPlayerNotifier.currentAudioPath,
+                                  );
+                                },
                               )
                             ],
                           ),
@@ -120,15 +155,6 @@ class AudioPlayerScreen extends ConsumerWidget {
                                       fontSize: 16,
                                       fontColor: Colors.white,
                                     ),
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(
-                                      Icons.favorite,
-                                      color: Colors.white,
-                                    ),
-                                    onPressed: () {
-                                      //TODO implement add to favorite
-                                    },
                                   ),
                                 ],
                               ),

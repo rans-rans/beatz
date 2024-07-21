@@ -13,6 +13,10 @@ class AudioPlayerProvider extends StateNotifier<AudioPlayer?> {
   String _currentAudioPath = '';
   String get currentAudioPath => _currentAudioPath;
 
+  void setCurrentPath(String newPath) {
+    _currentAudioPath = newPath;
+  }
+
   Future<void> initialize(String audioPath) async {
     if (state != null && _currentAudioPath == audioPath) return;
     _currentAudioPath = audioPath;

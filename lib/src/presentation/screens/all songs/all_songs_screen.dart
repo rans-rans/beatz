@@ -1,4 +1,4 @@
-import 'package:beatz/src/presentation/widgets/audio_tile.dart';
+import 'package:beatz/src/presentation/shared/widgets/audio_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 

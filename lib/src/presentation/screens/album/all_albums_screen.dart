@@ -1,5 +1,6 @@
+import 'package:beatz/src/domain/entities/collection.dart';
 import 'package:beatz/src/presentation/controllers/audio_view_provider.dart';
-import 'package:beatz/src/presentation/screens/album/album_songs_screen.dart';
+import 'package:beatz/src/presentation/shared/screens/collection_audios_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -32,13 +33,23 @@ class AllAlbumsScreen extends ConsumerWidget {
                     child: Card(
                       child: InkWell(
                         onTap: () async {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => AlbumSongsScreen(albumModel: album),
-                            ),
-                          );
-                          ref.read(audioViewProvider.notifier).minimizePlayer();
+                          OnAudioQuery()
+                              .queryAudiosFrom(AudiosFromType.ALBUM_ID, album.id)
+                              .then((audios) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => CollectionAudiosScreen(
+                                  collection: Collection(
+                                    id: album.id.toString(),
+                                    name: album.album,
+                                    audios: audios.map((e) => e.data).toList(),
+                                  ),
+                                ),
+                              ),
+                            );
+                            ref.read(audioViewProvider.notifier).minimizePlayer();
+                          });
                         },
                         child: const Center(
                           child: Icon(Icons.album),

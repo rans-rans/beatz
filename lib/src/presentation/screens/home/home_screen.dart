@@ -3,7 +3,7 @@ import 'package:beatz/src/presentation/controllers/audio_player_provider.dart';
 import 'package:beatz/src/presentation/screens/folder%20screen/folder_screen.dart';
 import 'package:beatz/src/presentation/screens/library/library_screen.dart';
 import 'package:beatz/src/presentation/screens/more%20screen/more_screen.dart';
-import 'package:beatz/src/presentation/widgets/minimized_player.dart';
+import 'package:beatz/src/presentation/shared/widgets/minimized_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';

@@ -1,6 +1,7 @@
 import 'package:beatz/shared/animations/page_animations/navigate_to_music_player_animation.dart';
 import 'package:beatz/src/presentation/controllers/audio_player_provider.dart';
 import 'package:beatz/src/presentation/controllers/audio_view_provider.dart';
+import 'package:beatz/src/presentation/shared/components/audio_info_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -26,7 +27,9 @@ class AudioTile extends ConsumerWidget {
       },
       trailing: IconButton(
         icon: const Icon(Icons.more_vert),
-        onPressed: () {},
+        onPressed: () {
+          showAudioInfoSheet(context, audio.data);
+        },
       ),
     );
   }
