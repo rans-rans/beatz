@@ -7,6 +7,7 @@ abstract class AudioPlayerRepo {
   bool get isPlaying;
   Loopmode get loopMode;
   bool get shuffleEnabled;
+  bool get musicActive;
 
   Future<void> play();
   Future<void> pause();
@@ -22,4 +23,5 @@ abstract class AudioPlayerRepo {
   Stream<Duration> get listenToPosition;
   Stream<bool> get listenToShuffle;
   Stream<bool> get listenToPlayingState;
+  Stream<bool> get musicActiveStream;
 }

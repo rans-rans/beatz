@@ -9,6 +9,9 @@ class JustAudioDatasource implements AudioPlayerRepo {
   final player = AudioPlayer();
 
   @override
+  int get currentIndex => player.currentIndex ?? 0;
+
+  @override
   Future<void> dispose() async {
     return await player.dispose();
   }
@@ -19,7 +22,10 @@ class JustAudioDatasource implements AudioPlayerRepo {
   }
 
   @override
-  int get currentIndex => player.currentIndex ?? 0;
+  bool get musicActive {
+    final state = player.playerState.processingState;
+    return state == ProcessingState.buffering || state == ProcessingState.ready;
+  }
 
   @override
   bool get isPlaying {
@@ -39,6 +45,14 @@ class JustAudioDatasource implements AudioPlayerRepo {
   @override
   Stream<bool> get listenToShuffle {
     return player.shuffleModeEnabledStream;
+  }
+
+  @override
+  Stream<bool> get musicActiveStream {
+    return player.playerStateStream.map((data) {
+      final state = data.processingState;
+      return state == ProcessingState.buffering || state == ProcessingState.ready;
+    });
   }
 
   @override

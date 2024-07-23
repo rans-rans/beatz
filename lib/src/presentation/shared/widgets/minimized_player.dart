@@ -24,7 +24,7 @@ class _MinimizedPlayerState extends ConsumerState<MinimizedPlayer> {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 4),
         child: StreamBuilder(
-            stream: audioProvider?.listenToPlayingState,
+            stream: audioProvider?.musicActiveStream,
             builder: (context, snapshot) {
               final playing = snapshot.data ?? false;
               if (!playing || audioProvider == null) {
@@ -35,7 +35,13 @@ class _MinimizedPlayerState extends ConsumerState<MinimizedPlayer> {
                 AudioViewState.dismissed => const SizedBox.shrink(),
                 AudioViewState.minimized => SizedBox(
                     height: minimizedPlayerHeight,
-                    child: InkWell(
+                    child: GestureDetector(
+                      onPanUpdate: (details) {
+                        if (details.delta.dx < -2) {
+                          ref.read(audioPlayerProvider.notifier).disposePlayer();
+                          ref.read(audioViewProvider.notifier).closePlayer();
+                        }
+                      },
                       onTap: () {
                         Navigator.push(
                           context,
@@ -74,7 +80,7 @@ class _MinimizedPlayerState extends ConsumerState<MinimizedPlayer> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Expanded(child: NowPlayingText()),
-                                PlayPauseButton(isDark: true, canStop: true),
+                                PlayPauseButton(isDark: true),
                               ],
                             ),
                           ),

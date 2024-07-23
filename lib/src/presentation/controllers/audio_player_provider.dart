@@ -32,12 +32,14 @@ class AudioPlayerProvider extends StateNotifier<AudioPlayerRepo?> {
     state = JustAudioDatasource();
     await state?.setAudioSource(sources: _currentChildren);
     await state?.setShuffledEnabled(shuffuleEnabled);
-    await state?.play();
+    state?.play();
   }
 
   Future<void> disposePlayer() async {
+    await state?.stop();
     await state?.dispose();
     state = null;
+    _currentChildren = [];
   }
 
   void toggleShuffuleMode() async {

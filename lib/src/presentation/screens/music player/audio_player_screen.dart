@@ -20,8 +20,31 @@ class AudioPlayerScreen extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _AudioPlayerScreenState();
 }
 
-class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
+class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen>
+    with WidgetsBindingObserver {
   String currentAudioPath = '';
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    final audioProvider = ref.read(audioPlayerProvider);
+    if (audioProvider?.musicActive == false && audioProvider?.isPlaying == false) {
+      Navigator.popUntil(context, ModalRoute.withName('/'));
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+  }
+
   @override
   Widget build(context) {
     final audioPlayerNotifier = ref.watch(audioPlayerProvider.notifier);

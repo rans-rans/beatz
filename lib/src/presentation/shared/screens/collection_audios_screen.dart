@@ -16,20 +16,35 @@ class CollectionAudiosScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(collection.name),
       ),
-      floatingActionButton: switch (ref.watch(audioPlayerProvider) != null) {
-        true => const SizedBox.shrink(),
-        false => FloatingActionButton(
-            child: const Icon(Icons.play_arrow),
-            onPressed: () {
-              ref
-                  .read(audioPlayerProvider.notifier)
-                  .initializePlaylist(collection.audios)
-                  .then((_) {
-                ref.read(audioViewProvider.notifier).minimizePlayer();
-              });
-            },
-          )
-      },
+      floatingActionButton: StreamBuilder<bool>(
+          stream: ref.watch(audioPlayerProvider)?.musicActiveStream,
+          builder: (context, musicActiveSnapshot) {
+            return StreamBuilder<bool>(
+              stream: ref.read(audioPlayerProvider)?.listenToPlayingState,
+              builder: (context, playingSnapshot) {
+                final musicActive = musicActiveSnapshot.data;
+                final isPlaying = playingSnapshot.data;
+
+                // final nothingPlaying = (musicActive == null && isPlaying == null);
+                final audioPaused = musicActive == true && isPlaying == false;
+                final audioPlaying = musicActive == true && isPlaying == true;
+                if (audioPaused || audioPlaying) {
+                  return const SizedBox.shrink();
+                }
+                return FloatingActionButton(
+                  child: const Icon(Icons.play_arrow),
+                  onPressed: () {
+                    ref
+                        .read(audioPlayerProvider.notifier)
+                        .initializePlaylist(collection.audios)
+                        .then((_) {
+                      ref.read(audioViewProvider.notifier).minimizePlayer();
+                    });
+                  },
+                );
+              },
+            );
+          }),
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
