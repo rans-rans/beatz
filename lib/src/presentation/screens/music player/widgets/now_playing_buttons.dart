@@ -19,7 +19,8 @@ class NowPlayingButtons extends ConsumerWidget {
             side: const BorderSide(color: Colors.white),
           ),
           onPressed: () {
-            ref.read(audioPlayerProvider)?.seekToPrevious();
+            // ref.read(audioPlayerProvider)?.seekToPrevious();
+            ref.read(audioPlayerProvider)?.skipToPrevious();
           },
           icon: const Icon(
             Icons.skip_previous,
@@ -33,7 +34,8 @@ class NowPlayingButtons extends ConsumerWidget {
             side: const BorderSide(color: Colors.white),
           ),
           onPressed: () {
-            ref.read(audioPlayerProvider)?.seekToNext();
+            // ref.read(audioPlayerProvider)?.seekToNext();
+            ref.read(audioPlayerProvider)?.skipToNext();
           },
           icon: const Icon(
             Icons.skip_next,

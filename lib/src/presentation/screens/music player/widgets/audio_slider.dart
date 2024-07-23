@@ -12,14 +12,14 @@ class AudioSlider extends ConsumerWidget {
   Widget build(context, ref) {
     final audioData = ref.read(audioPlayerProvider);
     return StreamBuilder(
-      stream: audioData?.positionStream,
+      stream: audioData?.listenToPosition,
       builder: (context, snapshot) {
         final progress = snapshot.data ?? Duration.zero;
         return Column(
           children: [
             Slider(
               min: 0,
-              max: audioData?.duration?.inSeconds.toDouble() ?? 0.0,
+              max: audioData?.getAudioLength.inSeconds.toDouble() ?? 0.0,
               value: progress.inSeconds.roundToDouble(),
               onChanged: (value) {
                 seekAudio(ref, value);
@@ -35,7 +35,7 @@ class AudioSlider extends ConsumerWidget {
                     style: const TextStyle(color: Colors.white),
                   ),
                   Text(
-                    getFormattedTime(audioData?.duration ?? Duration.zero),
+                    getFormattedTime(audioData?.getAudioLength ?? Duration.zero),
                     style: const TextStyle(color: Colors.white),
                   ),
                 ],
@@ -48,7 +48,7 @@ class AudioSlider extends ConsumerWidget {
   }
 
   Future<void>? seekAudio(WidgetRef ref, double value) {
-    return ref.read(audioPlayerProvider)?.seek(
+    return ref.read(audioPlayerProvider)?.seekToPosition(
           Duration(seconds: value.toInt()),
         );
   }

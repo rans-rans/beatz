@@ -1,4 +1,3 @@
-import 'package:beatz/src/presentation/controllers/audio_player_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AudioViewProvider extends StateNotifier<AudioViewState> {
@@ -16,3 +15,5 @@ class AudioViewProvider extends StateNotifier<AudioViewState> {
 final audioViewProvider = StateNotifierProvider<AudioViewProvider, AudioViewState>(
   (ref) => AudioViewProvider(),
 );
+
+enum AudioViewState { minimized, dismissed }

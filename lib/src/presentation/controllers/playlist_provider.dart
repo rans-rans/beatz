@@ -1,4 +1,4 @@
-import 'package:beatz/src/domain/entities/collection.dart';
+import 'package:beatz/src/domain/entities/models/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PlaylistProvider extends StateNotifier<List<Collection>> {

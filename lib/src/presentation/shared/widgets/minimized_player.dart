@@ -8,7 +8,6 @@ import 'package:beatz/src/presentation/screens/music%20player/widgets/play_pause
 import 'package:beatz/src/presentation/shared/widgets/now_playing_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:just_audio/just_audio.dart';
 
 class MinimizedPlayer extends ConsumerStatefulWidget {
   const MinimizedPlayer({super.key});
@@ -25,14 +24,10 @@ class _MinimizedPlayerState extends ConsumerState<MinimizedPlayer> {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 4),
         child: StreamBuilder(
-            stream: audioProvider?.playerStateStream,
+            stream: audioProvider?.listenToPlayingState,
             builder: (context, snapshot) {
-              final processingState = snapshot.data?.processingState;
-              final playing = snapshot.data?.playing ?? false;
-              if (processingState == null ||
-                  processingState == ProcessingState.idle ||
-                  !playing ||
-                  audioProvider == null) {
+              final playing = snapshot.data ?? false;
+              if (!playing || audioProvider == null) {
                 return const SizedBox.shrink();
               }
               final audioViewState = ref.watch(audioViewProvider);
@@ -55,12 +50,18 @@ class _MinimizedPlayerState extends ConsumerState<MinimizedPlayer> {
                             width: MediaQuery.sizeOf(context).width,
                             height: 5,
                             child: StreamBuilder(
-                                stream: audioProvider.positionStream,
+                                stream: audioProvider.listenToPosition,
                                 builder: (context, snapshot) {
-                                  double position = (snapshot.data?.inSeconds ?? 0) /
-                                      (audioProvider.duration?.inSeconds ?? 1);
-
-                                  return LinearProgressIndicator(value: position);
+                                  int currentPosition =
+                                      snapshot.data?.inSeconds ?? 1;
+                                  int audioLength =
+                                      audioProvider.getAudioLength.inSeconds;
+                                  if (audioLength == 0) {
+                                    audioLength = 1;
+                                  }
+                                  double percentage =
+                                      (currentPosition) / (audioLength);
+                                  return LinearProgressIndicator(value: percentage);
                                 }),
                           ),
                           const Padding(

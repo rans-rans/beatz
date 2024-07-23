@@ -1,8 +1,8 @@
+import 'package:beatz/src/domain/entities/enums/shuffle_mode.dart';
 import 'package:beatz/src/presentation/controllers/audio_player_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:just_audio/just_audio.dart';
 
 class SetLoopingButton extends ConsumerStatefulWidget {
   const SetLoopingButton({super.key});
@@ -13,13 +13,13 @@ class SetLoopingButton extends ConsumerStatefulWidget {
 
 class _SetLoopingButtonState extends ConsumerState<SetLoopingButton> {
   final overlayController = OverlayPortalController();
-  late ValueNotifier<LoopMode> loopModeNotifier;
+  late ValueNotifier<Loopmode> loopModeNotifier;
 
   @override
   void initState() {
     super.initState();
     loopModeNotifier =
-        ValueNotifier(ref.read(audioPlayerProvider)?.loopMode ?? LoopMode.off);
+        ValueNotifier(ref.read(audioPlayerProvider)?.loopMode ?? Loopmode.off);
   }
 
   @override
@@ -46,7 +46,7 @@ class _SetLoopingButtonState extends ConsumerState<SetLoopingButton> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text('Loop modes'),
-                    ...LoopMode.values.map((val) {
+                    ...Loopmode.values.map((val) {
                       return InkWell(
                         onTap: () {
                           ref.read(audioPlayerProvider)?.setLoopMode(val).then((_) {
@@ -86,9 +86,9 @@ class _SetLoopingButtonState extends ConsumerState<SetLoopingButton> {
                     BlendMode.color,
                   ),
                   switch (loopValue) {
-                    LoopMode.off => 'assets/icons/loop-off.svg',
-                    LoopMode.one => 'assets/icons/loop-1.svg',
-                    LoopMode.all => 'assets/icons/loop.svg',
+                    Loopmode.off => 'assets/icons/loop-off.svg',
+                    Loopmode.one => 'assets/icons/loop-1.svg',
+                    Loopmode.all => 'assets/icons/loop.svg',
                   },
                 );
               }),

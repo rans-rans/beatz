@@ -1,4 +1,4 @@
-import 'package:beatz/src/domain/entities/collection.dart';
+import 'package:beatz/src/domain/entities/models/collection.dart';
 import 'package:beatz/src/presentation/controllers/playlist_provider.dart';
 import 'package:beatz/src/presentation/shared/screens/collection_audios_screen.dart';
 import 'package:flutter/material.dart';

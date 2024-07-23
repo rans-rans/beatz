@@ -63,7 +63,7 @@ class AudioInfoSheet extends StatelessWidget {
                                 ),
                                 ListTile(
                                   title: Text(
-                                    "Album: ${data.album?.isEmpty ?? false ? "Unknown album" : data.album}",
+                                    "Album: ${data.album ?? "Unknown album"}",
                                   ),
                                 ),
                                 ListTile(title: Text("Destination: $audioPath")),

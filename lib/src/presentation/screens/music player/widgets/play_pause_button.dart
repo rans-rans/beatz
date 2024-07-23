@@ -2,7 +2,6 @@ import 'package:beatz/src/presentation/controllers/audio_player_provider.dart';
 import 'package:beatz/src/presentation/controllers/audio_view_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:just_audio/just_audio.dart';
 
 class PlayPauseButton extends ConsumerWidget {
   final bool isDark;
@@ -17,10 +16,8 @@ class PlayPauseButton extends ConsumerWidget {
   Widget build(context, ref) {
     final audioPlayer = ref.watch(audioPlayerProvider);
     return StreamBuilder(
-      stream: audioPlayer?.playerStateStream,
+      stream: audioPlayer?.listenToPlayingState,
       builder: (context, snapshot) {
-        final playingState =
-            snapshot.data ?? PlayerState(false, ProcessingState.buffering);
         return GestureDetector(
           onLongPress: () {
             if (canStop == false) return;
@@ -33,14 +30,14 @@ class PlayPauseButton extends ConsumerWidget {
               side: BorderSide(color: isDark ? Colors.black : Colors.white),
             ),
             onPressed: () {
-              if (playingState.playing) {
+              if (snapshot.data ?? false) {
                 audioPlayer?.pause();
               } else {
                 audioPlayer?.play();
               }
             },
             icon: Icon(
-              switch (playingState.playing) {
+              switch (snapshot.data ?? false) {
                 true => Icons.pause_outlined,
                 false => Icons.play_arrow,
               },

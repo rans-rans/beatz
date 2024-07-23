@@ -20,6 +20,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     with WidgetsBindingObserver {
   int currentBottomNavIndex = 0;
   bool addBottomSpacing = false;
+  bool didReceiveAudioIntent = false;
 
   final navigationPages = const [
     LibraryScreen(),
@@ -37,6 +38,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   @override
   void initState() {
     super.initState();
+    ReceiveSharingIntent.instance.getMediaStream().listen((snapshot) {
+      final data = snapshot.map((data) => data.path).toList();
+      didReceiveAudioIntent = true;
+      initializeIntentAudioFiles(ref, data, context);
+    });
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -44,7 +50,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     final audioAvailable = ref.read(audioPlayerProvider) != null;
-    if (state == AppLifecycleState.resumed && audioAvailable) {
+    if (state == AppLifecycleState.resumed &&
+        audioAvailable &&
+        didReceiveAudioIntent) {
+      didReceiveAudioIntent = false;
       Navigator.popUntil(context, ModalRoute.withName('/'));
     }
   }
@@ -52,33 +61,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   @override
   void dispose() {
     super.dispose();
+    ReceiveSharingIntent.instance.reset();
     WidgetsBinding.instance.removeObserver(this);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder(
-          stream: ReceiveSharingIntent.instance.getMediaStream(),
-          builder: (context, snapshot) {
-            final data = snapshot.data?.map((data) => data.path).toList() ?? [];
-            initializeIntentAudioFiles(ref, data, context);
-            return Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                FutureBuilder(
-                  future: requestFolderPermission(),
-                  builder: (context, snapshot) {
-                    return IndexedStack(
-                      index: currentBottomNavIndex,
-                      children: navigationPages,
-                    );
-                  },
-                ),
-                const MinimizedPlayer()
-              ],
-            );
-          }),
+      body: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          FutureBuilder(
+            future: requestFolderPermission(),
+            builder: (context, snapshot) {
+              return IndexedStack(
+                index: currentBottomNavIndex,
+                children: navigationPages,
+              );
+            },
+          ),
+          const MinimizedPlayer()
+        ],
+      ),
       bottomNavigationBar: NavigationBar(
         height: kBottomNavigationBarHeight * 1.5,
         selectedIndex: currentBottomNavIndex,

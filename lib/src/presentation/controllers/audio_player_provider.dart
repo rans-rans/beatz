@@ -1,65 +1,38 @@
-import 'dart:io';
-
-import 'package:audio_metadata_reader/audio_metadata_reader.dart';
-import 'package:beatz/shared/helpers/helper_functions.dart';
+import 'package:beatz/src/data/repositories/just_audio_datasource.dart';
+import 'package:beatz/src/domain/entities/models/audio.dart';
+import 'package:beatz/src/domain/repositories/audio_player_repo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:just_audio/just_audio.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 
-class AudioPlayerProvider extends StateNotifier<AudioPlayer?> {
+class AudioPlayerProvider extends StateNotifier<AudioPlayerRepo?> {
   AudioPlayerProvider() : super(null);
 
   bool shuffuleEnabled = false;
-  String _currentAudioPath = '';
-  String get currentAudioPath => _currentAudioPath;
+  List<Audio> _currentChildren = [];
 
-  void setCurrentPath(String newPath) {
-    _currentAudioPath = newPath;
+  String get currentAudioPath {
+    return _currentChildren[state?.currentIndex ?? 0].path;
+  }
+
+  int get currentIndex {
+    return state?.currentIndex ?? 0;
   }
 
   Future<void> initialize(String audioPath) async {
-    if (state != null && _currentAudioPath == audioPath) return;
-    _currentAudioPath = audioPath;
-    disposePlayer();
-    final metadata = await readMetadata(File(audioPath));
-    state = AudioPlayer();
-    await state?.setShuffleModeEnabled(shuffuleEnabled);
-    await state?.setAudioSource(
-      AudioSource.file(
-        audioPath,
-        tag: MediaItem(
-          id: audioPath,
-          title: metadata.title ?? getFileName(audioPath),
-          album: metadata.album ?? "Unknown album",
-          duration: metadata.duration,
-          artist: metadata.album ?? "No artist",
-        ),
-      ),
-    );
+    if (state != null && currentAudioPath == audioPath) return;
+    await disposePlayer();
+    state = JustAudioDatasource();
+    _currentChildren = [Audio(path: audioPath)];
+    await state?.setAudioSource(sources: _currentChildren);
     state?.play();
   }
 
   Future<void> initializePlaylist(List<String> audioPaths) async {
     await disposePlayer();
-    _currentAudioPath = '';
-    final children = audioPaths
-        .map(
-          (s) => AudioSource.file(
-            s,
-            tag: MediaItem(
-              id: s,
-              title: getFileName(s),
-              displayTitle: getFileName(s),
-            ),
-          ),
-        )
-        .toList();
-    final audioSource = ConcatenatingAudioSource(children: children);
-    state = AudioPlayer();
-
-    await state?.setShuffleModeEnabled(shuffuleEnabled);
-    await state?.setAudioSource(audioSource);
-    state?.play();
+    _currentChildren = audioPaths.map((e) => Audio(path: e)).toList();
+    state = JustAudioDatasource();
+    await state?.setAudioSource(sources: _currentChildren);
+    await state?.setShuffledEnabled(shuffuleEnabled);
+    await state?.play();
   }
 
   Future<void> disposePlayer() async {
@@ -67,9 +40,9 @@ class AudioPlayerProvider extends StateNotifier<AudioPlayer?> {
     state = null;
   }
 
-  void toggleShuffuleMode() {
-    shuffuleEnabled = !state!.shuffleModeEnabled;
-    state!.setShuffleModeEnabled(shuffuleEnabled);
+  void toggleShuffuleMode() async {
+    shuffuleEnabled = !state!.shuffleEnabled;
+    state!.setShuffledEnabled(shuffuleEnabled);
   }
 
   @override
@@ -80,8 +53,6 @@ class AudioPlayerProvider extends StateNotifier<AudioPlayer?> {
 }
 
 final audioPlayerProvider =
-    StateNotifierProvider<AudioPlayerProvider, AudioPlayer?>((ref) {
+    StateNotifierProvider<AudioPlayerProvider, AudioPlayerRepo?>((ref) {
   return AudioPlayerProvider();
 });
-
-enum AudioViewState { minimized, dismissed }

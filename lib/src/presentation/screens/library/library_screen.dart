@@ -1,5 +1,5 @@
 import 'package:beatz/src/presentation/screens/album/all_albums_screen.dart';
-import 'package:beatz/src/presentation/screens/all%20songs/all_songs_screen.dart';
+import 'package:beatz/src/presentation/screens/all%20songs/all_audios_screen.dart';
 import 'package:beatz/src/presentation/screens/playlist/playlist_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +9,7 @@ class LibraryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const tabs = [
-      AllSongsScreen(),
+      AllAudiosScreen(),
       AllAlbumsScreen(),
       PlaylistScreen(),
     ];
