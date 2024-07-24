@@ -1,3 +1,4 @@
+import 'package:beatz/shared/theme/theme.dart';
 import 'package:beatz/src/presentation/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,8 +21,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: HomeScreen(),
+    return MaterialApp(
+      home: const HomeScreen(),
+      theme: const MaterialTheme().light(),
+      darkTheme: const MaterialTheme().dark(),
+      themeMode: ThemeMode.system,
     );
   }
 }

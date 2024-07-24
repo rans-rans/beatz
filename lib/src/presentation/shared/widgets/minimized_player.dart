@@ -20,36 +20,44 @@ class _MinimizedPlayerState extends ConsumerState<MinimizedPlayer> {
   @override
   Widget build(context) {
     final audioProvider = ref.watch(audioPlayerProvider);
-    return ClipRRect(
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 4),
-        child: StreamBuilder(
-            stream: audioProvider?.musicActiveStream,
-            builder: (context, snapshot) {
-              final playing = snapshot.data ?? false;
-              if (!playing || audioProvider == null) {
-                return const SizedBox.shrink();
-              }
-              final audioViewState = ref.watch(audioViewProvider);
-              return switch (audioViewState) {
-                AudioViewState.dismissed => const SizedBox.shrink(),
-                AudioViewState.minimized => SizedBox(
-                    height: minimizedPlayerHeight,
-                    child: GestureDetector(
-                      onPanUpdate: (details) {
-                        if (details.delta.dx < -2) {
-                          ref.read(audioPlayerProvider.notifier).disposePlayer();
-                          ref.read(audioViewProvider.notifier).closePlayer();
-                        }
-                      },
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          NavigateToMusicPlayerAnimation(),
-                        ).then((_) {
-                          ref.read(audioViewProvider.notifier).minimizePlayer();
-                        });
-                      },
+    return GestureDetector(
+      onPanUpdate: (details) {
+        //swiping left dimisses the player
+        if (details.delta.dx < -1.5) {
+          ref.read(audioViewProvider.notifier).closePlayer();
+          ref.read(audioPlayerProvider.notifier).disposePlayer();
+        }
+        //swiping up opens audio player screen
+        if (details.delta.dy < -1.5) {
+          Navigator.push(
+            context,
+            NavigateToMusicPlayerAnimation(),
+          );
+        }
+      },
+      onTap: () {
+        Navigator.push(
+          context,
+          NavigateToMusicPlayerAnimation(),
+        ).then((_) {
+          ref.read(audioViewProvider.notifier).minimizePlayer();
+        });
+      },
+      child: ClipRRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 4),
+          child: StreamBuilder(
+              stream: audioProvider?.musicActiveStream,
+              builder: (context, snapshot) {
+                final playing = snapshot.data ?? false;
+                if (!playing || audioProvider == null) {
+                  return const SizedBox.shrink();
+                }
+                final audioViewState = ref.watch(audioViewProvider);
+                return switch (audioViewState) {
+                  AudioViewState.dismissed => const SizedBox.shrink(),
+                  AudioViewState.minimized => SizedBox(
+                      height: minimizedPlayerHeight,
                       child: Column(
                         children: [
                           SizedBox(
@@ -85,10 +93,10 @@ class _MinimizedPlayerState extends ConsumerState<MinimizedPlayer> {
                             ),
                           ),
                         ],
-                      ),
-                    ))
-              };
-            }),
+                      ))
+                };
+              }),
+        ),
       ),
     );
   }
