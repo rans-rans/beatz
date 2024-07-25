@@ -83,23 +83,10 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen>
                     ),
                   ),
                 ),
-                //page content with black gradient overlay
-                Container(
+                //page content
+                SizedBox(
                   height: MediaQuery.sizeOf(context).height,
                   width: MediaQuery.sizeOf(context).width,
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Colors.black54,
-                        Colors.black54,
-                        Colors.black38,
-                        Colors.black45,
-                        Colors.black87,
-                      ],
-                    ),
-                  ),
                   child: SafeArea(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),

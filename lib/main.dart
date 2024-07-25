@@ -21,10 +21,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const theme = CustomTheme();
     return MaterialApp(
       home: const HomeScreen(),
-      theme: const MaterialTheme().light(),
-      darkTheme: const MaterialTheme().dark(),
+      theme: theme.lightTheme(),
+      darkTheme: theme.darkTheme(),
       themeMode: ThemeMode.system,
     );
   }

@@ -15,32 +15,20 @@ class NowPlayingButtons extends ConsumerWidget {
       children: [
         const SetLoopingButton(),
         IconButton.outlined(
-          style: IconButton.styleFrom(
-            side: const BorderSide(color: Colors.white),
-          ),
+          icon: const Icon(Icons.skip_previous),
           onPressed: () {
             // ref.read(audioPlayerProvider)?.seekToPrevious();
             ref.read(audioPlayerProvider)?.skipToPrevious();
           },
-          icon: const Icon(
-            Icons.skip_previous,
-            color: Colors.white,
-          ),
         ),
         // the
         const PlayPauseButton(),
         IconButton.outlined(
-          style: IconButton.styleFrom(
-            side: const BorderSide(color: Colors.white),
-          ),
+          icon: const Icon(Icons.skip_next),
           onPressed: () {
             // ref.read(audioPlayerProvider)?.seekToNext();
             ref.read(audioPlayerProvider)?.skipToNext();
           },
-          icon: const Icon(
-            Icons.skip_next,
-            color: Colors.white,
-          ),
         ),
         const SetShuffleButton()
       ],

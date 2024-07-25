@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PlayPauseButton extends ConsumerWidget {
-  final bool isDark;
-  const PlayPauseButton({super.key, this.isDark = false});
+  const PlayPauseButton({super.key});
 
   @override
   Widget build(context, ref) {
@@ -12,24 +11,25 @@ class PlayPauseButton extends ConsumerWidget {
     return StreamBuilder(
       stream: audioPlayer?.listenToPlayingState,
       builder: (context, snapshot) {
-        return IconButton(
-          iconSize: 25,
-          style: IconButton.styleFrom(
-            side: BorderSide(color: isDark ? Colors.black : Colors.white),
-          ),
-          onPressed: () {
-            if (snapshot.data ?? false) {
-              audioPlayer?.pause();
-            } else {
-              audioPlayer?.play();
-            }
+        return InkWell(
+          onTapDown: (_) {
+            audioPlayer?.stop();
           },
-          icon: Icon(
-            switch (snapshot.data ?? false) {
-              true => Icons.pause_outlined,
-              false => Icons.play_arrow,
+          child: IconButton.outlined(
+            iconSize: 35,
+            onPressed: () {
+              if (snapshot.data ?? false) {
+                audioPlayer?.pause();
+              } else {
+                audioPlayer?.play();
+              }
             },
-            color: isDark ? Colors.black : Colors.white,
+            icon: Icon(
+              switch (snapshot.data ?? false) {
+                true => Icons.pause_outlined,
+                false => Icons.play_arrow,
+              },
+            ),
           ),
         );
       },

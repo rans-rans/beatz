@@ -18,7 +18,6 @@ class SetShuffleButton extends ConsumerWidget {
               true => Icons.shuffle_on_outlined,
               false => Icons.shuffle,
             },
-            color: Colors.white,
           ),
           onPressed: () {
             ref.read(audioPlayerProvider.notifier).toggleShuffuleMode();
