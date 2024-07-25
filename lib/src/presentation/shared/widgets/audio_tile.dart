@@ -14,7 +14,10 @@ class AudioTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
-      title: Text(audio.title ?? getFileName(audio.path)),
+      title: Text(
+        audio.title ?? getFileName(audio.path),
+        maxLines: 2,
+      ),
       leading: const Icon(Icons.music_note),
       onTap: () {
         ref.read(audioPlayerProvider.notifier).initialize(audio.path).then((_) {

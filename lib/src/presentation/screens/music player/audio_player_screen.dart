@@ -178,7 +178,7 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen>
                                 children: [
                                   SizedBox(
                                     width: MediaQuery.sizeOf(context).width * 0.75,
-                                    child: const NowPlayingText(fontSize: 16),
+                                    child: const NowPlayingText(fontSize: 19),
                                   ),
                                 ],
                               ),

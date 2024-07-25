@@ -63,8 +63,12 @@ class _NowPlayingTextState extends ConsumerState<NowPlayingText>
           maxLines: 1,
           softWrap: false,
           style: TextStyle(
-            color: Theme.of(context).colorScheme.onPrimary,
             fontSize: widget.fontSize,
+            fontWeight: FontWeight.w500,
+            color: switch (Theme.of(context).brightness == Brightness.light) {
+              true => Colors.black,
+              false => Colors.white,
+            },
           ),
         );
       },

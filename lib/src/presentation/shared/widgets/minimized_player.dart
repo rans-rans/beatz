@@ -71,7 +71,9 @@ class _MinimizedPlayerState extends ConsumerState<MinimizedPlayer> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Expanded(child: NowPlayingText()),
+                              Expanded(
+                                child: NowPlayingText(fontSize: 18),
+                              ),
                               PlayPauseButton(),
                             ],
                           ),
