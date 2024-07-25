@@ -60,13 +60,14 @@ class _MinimizedPlayerState extends ConsumerState<MinimizedPlayer> {
                                 return LinearProgressIndicator(value: percentage);
                               }),
                         ),
-                        const Spacer(),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(
+                        Container(
+                          height: minimizedPlayerHeight - 5,
+                          color: Theme.of(context).colorScheme.primary,
+                          padding: const EdgeInsets.symmetric(
                             horizontal: 10,
                             vertical: 8,
                           ),
-                          child: Row(
+                          child: const Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -75,7 +76,6 @@ class _MinimizedPlayerState extends ConsumerState<MinimizedPlayer> {
                             ],
                           ),
                         ),
-                        const Spacer(),
                       ],
                     ),
                   )

@@ -16,6 +16,10 @@ class NowPlayingButtons extends ConsumerWidget {
         const SetLoopingButton(),
         IconButton.outlined(
           icon: const Icon(Icons.skip_previous),
+          color: Theme.of(context).colorScheme.onSurface,
+          style: IconButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.surface,
+          ),
           onPressed: () {
             // ref.read(audioPlayerProvider)?.seekToPrevious();
             ref.read(audioPlayerProvider)?.skipToPrevious();
@@ -24,6 +28,10 @@ class NowPlayingButtons extends ConsumerWidget {
         // the
         const PlayPauseButton(),
         IconButton.outlined(
+          color: Theme.of(context).colorScheme.onSurface,
+          style: IconButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.surface,
+          ),
           icon: const Icon(Icons.skip_next),
           onPressed: () {
             // ref.read(audioPlayerProvider)?.seekToNext();

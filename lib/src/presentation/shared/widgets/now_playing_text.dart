@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class NowPlayingText extends ConsumerStatefulWidget {
-  final Color? fontColor;
   final double? fontSize;
-  const NowPlayingText({super.key, this.fontColor, this.fontSize});
+  const NowPlayingText({super.key, this.fontSize});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _NowPlayingTextState();
@@ -64,7 +63,7 @@ class _NowPlayingTextState extends ConsumerState<NowPlayingText>
           maxLines: 1,
           softWrap: false,
           style: TextStyle(
-            color: widget.fontColor,
+            color: Theme.of(context).colorScheme.onPrimary,
             fontSize: widget.fontSize,
           ),
         );

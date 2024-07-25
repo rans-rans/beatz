@@ -17,6 +17,10 @@ class PlayPauseButton extends ConsumerWidget {
           },
           child: IconButton.outlined(
             iconSize: 35,
+            color: Theme.of(context).colorScheme.onSurface,
+            style: IconButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.surface,
+            ),
             onPressed: () {
               if (snapshot.data ?? false) {
                 audioPlayer?.pause();

@@ -39,13 +39,17 @@ class _SetLoopingButtonState extends ConsumerState<SetLoopingButton> {
                 width: MediaQuery.sizeOf(context).width * 0.4,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(2),
-                  color: Colors.white,
                 ),
                 padding: const EdgeInsets.all(11),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Loop modes'),
+                    Text(
+                      'Loop modes',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.surface,
+                      ),
+                    ),
                     ...Loopmode.values.map((val) {
                       return InkWell(
                         onTap: () {
@@ -56,11 +60,13 @@ class _SetLoopingButtonState extends ConsumerState<SetLoopingButton> {
                         },
                         child: Container(
                           alignment: Alignment.center,
+                          color: Theme.of(context).colorScheme.surface,
                           height: 45,
                           child: Text(
                             val.name,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
                         ),

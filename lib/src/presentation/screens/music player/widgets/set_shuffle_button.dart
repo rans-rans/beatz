@@ -13,6 +13,10 @@ class SetShuffleButton extends ConsumerWidget {
       stream: ref.read(audioPlayerProvider)?.listenToShuffle,
       builder: (context, snapshot) {
         return IconButton(
+          color: Theme.of(context).colorScheme.onSurface,
+          style: IconButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.surface,
+          ),
           icon: Icon(
             switch (snapshot.data ?? false) {
               true => Icons.shuffle_on_outlined,
