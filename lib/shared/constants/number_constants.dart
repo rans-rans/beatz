@@ -1,1 +1,1 @@
-double minimizedPlayerHeight = 75;
+double minimizedPlayerHeight = 90;

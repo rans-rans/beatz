@@ -69,6 +69,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
+        fit: StackFit.passthrough,
         alignment: Alignment.bottomCenter,
         children: [
           FutureBuilder(

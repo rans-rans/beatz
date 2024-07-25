@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:beatz/shared/animations/page_animations/navigate_to_music_player_animation.dart';
 import 'package:beatz/shared/constants/number_constants.dart';
 import 'package:beatz/src/presentation/controllers/audio_player_provider.dart';
@@ -20,83 +18,69 @@ class _MinimizedPlayerState extends ConsumerState<MinimizedPlayer> {
   @override
   Widget build(context) {
     final audioProvider = ref.watch(audioPlayerProvider);
-    return GestureDetector(
-      onPanUpdate: (details) {
-        //swiping left dimisses the player
-        if (details.delta.dx < -1.5) {
-          ref.read(audioViewProvider.notifier).closePlayer();
-          ref.read(audioPlayerProvider.notifier).disposePlayer();
-        }
-        //swiping up opens audio player screen
-        if (details.delta.dy < -1.5) {
-          Navigator.push(
-            context,
-            NavigateToMusicPlayerAnimation(),
-          );
-        }
-      },
-      onTap: () {
-        Navigator.push(
-          context,
-          NavigateToMusicPlayerAnimation(),
-        ).then((_) {
-          ref.read(audioViewProvider.notifier).minimizePlayer();
-        });
-      },
-      child: ClipRRect(
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 4),
-          child: StreamBuilder(
-              stream: audioProvider?.musicActiveStream,
-              builder: (context, snapshot) {
-                final playing = snapshot.data ?? false;
-                if (!playing || audioProvider == null) {
-                  return const SizedBox.shrink();
-                }
-                final audioViewState = ref.watch(audioViewProvider);
-                return switch (audioViewState) {
-                  AudioViewState.dismissed => const SizedBox.shrink(),
-                  AudioViewState.minimized => SizedBox(
-                      height: minimizedPlayerHeight,
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.sizeOf(context).width,
-                            height: 5,
-                            child: StreamBuilder(
-                                stream: audioProvider.listenToPosition,
-                                builder: (context, snapshot) {
-                                  int currentPosition =
-                                      snapshot.data?.inSeconds ?? 1;
-                                  int audioLength =
-                                      audioProvider.getAudioLength.inSeconds;
-                                  if (audioLength == 0) {
-                                    audioLength = 1;
-                                  }
-                                  double percentage =
-                                      (currentPosition) / (audioLength);
-                                  return LinearProgressIndicator(value: percentage);
-                                }),
+    return Material(
+      child: GestureDetector(
+        onPanUpdate: (details) {
+          //swiping up opens audio player screen
+          if (details.delta.dy < -1.5) {
+            Navigator.push(
+              context,
+              NavigateToMusicPlayerAnimation(),
+            );
+          }
+        },
+        child: StreamBuilder(
+            stream: audioProvider?.musicActiveStream,
+            builder: (context, snapshot) {
+              final playing = snapshot.data ?? false;
+              if (!playing || audioProvider == null) {
+                return const SizedBox.shrink();
+              }
+              final audioViewState = ref.watch(audioViewProvider);
+              return switch (audioViewState) {
+                AudioViewState.dismissed => const SizedBox.shrink(),
+                AudioViewState.minimized => SizedBox(
+                    height: minimizedPlayerHeight,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.sizeOf(context).width,
+                          height: 5,
+                          child: StreamBuilder(
+                              stream: audioProvider.listenToPosition,
+                              builder: (context, snapshot) {
+                                int currentPosition = snapshot.data?.inSeconds ?? 1;
+                                int audioLength =
+                                    audioProvider.getAudioLength.inSeconds;
+                                if (audioLength == 0) {
+                                  audioLength = 1;
+                                }
+                                double percentage =
+                                    (currentPosition) / (audioLength);
+                                return LinearProgressIndicator(value: percentage);
+                              }),
+                        ),
+                        const Spacer(),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 8,
                           ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 8,
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(child: NowPlayingText()),
-                                PlayPauseButton(isDark: true),
-                              ],
-                            ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(child: NowPlayingText()),
+                              PlayPauseButton(isDark: true),
+                            ],
                           ),
-                        ],
-                      ))
-                };
-              }),
-        ),
+                        ),
+                        const Spacer(),
+                      ],
+                    ),
+                  )
+              };
+            }),
       ),
     );
   }
