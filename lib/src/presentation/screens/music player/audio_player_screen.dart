@@ -73,6 +73,16 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen>
                   child: Container(
                     height: MediaQuery.sizeOf(context).height,
                     decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.black38,
+                          Colors.black38,
+                          Colors.black87,
+                          Colors.black54,
+                        ],
+                      ),
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         alignment: Alignment.center,
@@ -131,28 +141,35 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen>
                             ],
                           ),
                           const Spacer(flex: 5),
-                          switch (picture == null) {
-                            true => Image.asset(
-                                placeholderImagePath,
-                                width: double.infinity,
-                                height: MediaQuery.sizeOf(context).height * 0.45,
-                                fit: BoxFit.cover,
-                              ),
-                            false => Image.memory(
-                                picture!,
-                                fit: BoxFit.cover,
-                                height: MediaQuery.sizeOf(context).height * 0.45,
-                                width: double.infinity,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Image.asset(
-                                    placeholderImagePath,
-                                    width: double.infinity,
-                                    height: MediaQuery.sizeOf(context).height * 0.45,
-                                    fit: BoxFit.cover,
-                                  );
-                                },
-                              )
-                          },
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 1),
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                            child: switch (picture == null) {
+                              true => Image.asset(
+                                  placeholderImagePath,
+                                  width: double.infinity,
+                                  height: MediaQuery.sizeOf(context).height * 0.45,
+                                  fit: BoxFit.cover,
+                                ),
+                              false => Image.memory(
+                                  picture!,
+                                  fit: BoxFit.cover,
+                                  height: MediaQuery.sizeOf(context).height * 0.45,
+                                  width: double.infinity,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Image.asset(
+                                      placeholderImagePath,
+                                      width: double.infinity,
+                                      height:
+                                          MediaQuery.sizeOf(context).height * 0.45,
+                                      fit: BoxFit.cover,
+                                    );
+                                  },
+                                )
+                            },
+                          ),
                           const Spacer(flex: 5),
                           Column(
                             children: [

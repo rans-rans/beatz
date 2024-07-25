@@ -1,53 +1,29 @@
+import 'package:beatz/src/presentation/controllers/all_audio_provider.dart';
 import 'package:beatz/src/presentation/shared/widgets/audio_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:on_audio_query/on_audio_query.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AllAudiosScreen extends StatefulWidget {
+class AllAudiosScreen extends ConsumerWidget {
   const AllAudiosScreen({super.key});
 
   @override
-  State<AllAudiosScreen> createState() => _AllAudiosScreenState();
-}
-
-class _AllAudiosScreenState extends State<AllAudiosScreen> {
-  final audioQuery = OnAudioQuery();
-  late Future<List<SongModel>> fetchAudios;
-
-  @override
-  void initState() {
-    super.initState();
-    fetchAudios = audioQuery.querySongs();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(context, ref) {
+    final allAudios = ref.watch(allAudiosProvider);
     return RefreshIndicator(
       onRefresh: () async {
-        setState(() {
-          fetchAudios = audioQuery.querySongs();
-        });
+        ref.read(allAudiosProvider.notifier).reloadAudios();
       },
-      child: FutureBuilder(
-        future: audioQuery.checkAndRequest(),
-        builder: (contex, snap) {
-          return FutureBuilder(
-            future: fetchAudios,
-            builder: (context, querySnapshot) {
-              if (querySnapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if ((querySnapshot.data ?? []).isEmpty) {
-                return const Center(
-                  child: Text("No audios found"),
-                );
-              }
-              return ListView.builder(
-                itemCount: querySnapshot.data!.length,
-                itemBuilder: (context, index) {
-                  final audio = querySnapshot.data![index];
-                  return AudioTile(audio);
-                },
-              );
+      child: allAudios.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, stackTrace) => const Center(
+          child: Text("No audios found"),
+        ),
+        data: (audios) {
+          return ListView.builder(
+            itemCount: audios.length,
+            itemBuilder: (context, index) {
+              final audio = audios[index];
+              return AudioTile(audio);
             },
           );
         },
