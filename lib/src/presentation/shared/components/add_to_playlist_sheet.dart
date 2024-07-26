@@ -73,13 +73,13 @@ class _AddToPlaylistBodyState extends ConsumerState<_AddToPlaylistBody> {
               ],
             ),
             Flexible(
-                child: switch (playlistProv.isEmpty) {
+                child: switch (playlistProv.value?.isEmpty ?? false) {
               true => const Center(child: Text('No playlist created yet')),
               false => ListView.builder(
-                  itemCount: playlistProv.length,
+                  itemCount: playlistProv.value?.length ?? 0,
                   primary: false,
                   itemBuilder: (context, index) {
-                    final playlist = playlistProv[index];
+                    final playlist = playlistProv.value![index];
                     return ListTile(
                       title: Text(playlist.name),
                       onTap: () {

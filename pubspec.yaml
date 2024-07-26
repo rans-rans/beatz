@@ -20,6 +20,8 @@ dependencies:
   just_audio_background: ^0.0.1-beta.13
   on_audio_query: ^2.9.0
   receive_sharing_intent: ^1.8.0
+  path: ^1.9.0
+  sqflite: ^2.3.3+1
 
 dev_dependencies:
   flutter_test:
