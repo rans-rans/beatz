@@ -4,13 +4,43 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This is a music player app made with flutter. It has features such background playing, can open audio files from other app, playlist features and anything basic thing an audio player app can do.
 
-A few resources to get you started if this is your first Flutter project:
+### Screenshots
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<div>
+<h4>
+library screen
+</h4>
+<img src="markdown_assets/Screenshot_20240726_113140.jpg" alt="drawing" width="200"/>
+</div>
+<div>
+<h4>
+album screen
+</h4>
+<img src="markdown_assets/Screenshot_20240726_113144.jpg" alt="drawing" width="200"/>
+</div>
+<div>
+<h4>
+file explorer
+</h4>
+<img src="markdown_assets/Screenshot_20240726_113151.jpg" alt="drawing" width="200"/>
+</div>
+<div>
+<h4>
+Player screen
+</h4>
+<img src="markdown_assets/Screenshot_20240726_113221.jpg" alt="drawing" width="200"/>
+</div>
+Notification player
+<div>
+<h4>
+</h4>
+<img src="markdown_assets/Screenshot_20240726_113239.jpg" alt="drawing" width="200"/>
+</div>
+<div>
+<h4>
+Minimized player
+</h4>
+<img src="markdown_assets/Screenshot_20240726_113850.jpg" alt="drawing" width="200"/>
+</div>
