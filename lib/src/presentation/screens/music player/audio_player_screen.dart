@@ -34,7 +34,8 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     final audioProvider = ref.read(audioPlayerProvider);
-    if (audioProvider?.musicActive == false && audioProvider?.isPlaying == false) {
+    if (audioProvider.value?.musicActive == false &&
+        audioProvider.value?.isPlaying == false) {
       Navigator.popUntil(context, ModalRoute.withName('/'));
     }
   }

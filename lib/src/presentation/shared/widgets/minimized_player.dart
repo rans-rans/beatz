@@ -30,10 +30,10 @@ class _MinimizedPlayerState extends ConsumerState<MinimizedPlayer> {
           }
         },
         child: StreamBuilder(
-            stream: audioProvider?.musicActiveStream,
+            stream: audioProvider.value?.musicActiveStream,
             builder: (context, snapshot) {
               final playing = snapshot.data ?? false;
-              if (!playing || audioProvider == null) {
+              if (!playing || audioProvider.value == null) {
                 return const SizedBox.shrink();
               }
               final audioViewState = ref.watch(audioViewProvider);
@@ -47,11 +47,12 @@ class _MinimizedPlayerState extends ConsumerState<MinimizedPlayer> {
                           width: MediaQuery.sizeOf(context).width,
                           height: 5,
                           child: StreamBuilder(
-                              stream: audioProvider.listenToPosition,
+                              stream: audioProvider.value?.listenToPosition,
                               builder: (context, snapshot) {
                                 int currentPosition = snapshot.data?.inSeconds ?? 1;
                                 int audioLength =
-                                    audioProvider.getAudioLength.inSeconds;
+                                    audioProvider.value?.getAudioLength.inSeconds ??
+                                        0;
                                 if (audioLength == 0) {
                                   audioLength = 1;
                                 }

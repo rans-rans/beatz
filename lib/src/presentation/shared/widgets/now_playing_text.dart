@@ -20,7 +20,7 @@ class _NowPlayingTextState extends ConsumerState<NowPlayingText>
 
   void getText() {
     final audioPlayerProv = ref.read(audioPlayerProvider);
-    audioPlayerProv?.listenToPosition.listen(
+    audioPlayerProv.value?.listenToPosition.listen(
       (posData) {
         if (ref.context.mounted == false) return;
         final path = ref.read(audioPlayerProvider.notifier).currentAudioPath;

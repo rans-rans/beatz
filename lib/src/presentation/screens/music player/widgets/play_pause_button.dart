@@ -9,11 +9,11 @@ class PlayPauseButton extends ConsumerWidget {
   Widget build(context, ref) {
     final audioPlayer = ref.read(audioPlayerProvider);
     return StreamBuilder(
-      stream: audioPlayer?.listenToPlayingState,
+      stream: audioPlayer.value?.listenToPlayingState,
       builder: (context, snapshot) {
         return InkWell(
           onTapDown: (_) {
-            audioPlayer?.stop();
+            audioPlayer.value?.stop();
           },
           child: IconButton.outlined(
             iconSize: 35,
@@ -23,9 +23,9 @@ class PlayPauseButton extends ConsumerWidget {
             ),
             onPressed: () {
               if (snapshot.data ?? false) {
-                audioPlayer?.pause();
+                audioPlayer.value?.pause();
               } else {
-                audioPlayer?.play();
+                audioPlayer.value?.play();
               }
             },
             icon: Icon(

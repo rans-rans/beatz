@@ -22,7 +22,7 @@ class NowPlayingButtons extends ConsumerWidget {
           ),
           onPressed: () {
             // ref.read(audioPlayerProvider)?.seekToPrevious();
-            ref.read(audioPlayerProvider)?.skipToPrevious();
+            ref.read(audioPlayerProvider).value?.skipToPrevious();
           },
         ),
         // the
@@ -35,7 +35,7 @@ class NowPlayingButtons extends ConsumerWidget {
           icon: const Icon(Icons.skip_next),
           onPressed: () {
             // ref.read(audioPlayerProvider)?.seekToNext();
-            ref.read(audioPlayerProvider)?.skipToNext();
+            ref.read(audioPlayerProvider).value?.skipToNext();
           },
         ),
         const SetShuffleButton()

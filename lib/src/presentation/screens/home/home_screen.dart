@@ -49,7 +49,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    final audioAvailable = ref.read(audioPlayerProvider) != null;
+    final audioAvailable = ref.read(audioPlayerProvider).value != null;
     if (state == AppLifecycleState.resumed &&
         audioAvailable &&
         didReceiveAudioIntent) {

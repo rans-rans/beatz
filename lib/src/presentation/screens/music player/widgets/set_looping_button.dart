@@ -19,7 +19,7 @@ class _SetLoopingButtonState extends ConsumerState<SetLoopingButton> {
   void initState() {
     super.initState();
     loopModeNotifier =
-        ValueNotifier(ref.read(audioPlayerProvider)?.loopMode ?? Loopmode.off);
+        ValueNotifier(ref.read(audioPlayerProvider).value?.loopMode ?? Loopmode.off);
   }
 
   @override
@@ -53,7 +53,11 @@ class _SetLoopingButtonState extends ConsumerState<SetLoopingButton> {
                     ...Loopmode.values.map((val) {
                       return InkWell(
                         onTap: () {
-                          ref.read(audioPlayerProvider)?.setLoopMode(val).then((_) {
+                          ref
+                              .read(audioPlayerProvider)
+                              .value
+                              ?.setLoopMode(val)
+                              .then((_) {
                             loopModeNotifier.value = val;
                             overlayController.hide();
                           });

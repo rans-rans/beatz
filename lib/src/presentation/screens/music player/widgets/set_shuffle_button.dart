@@ -10,7 +10,7 @@ class SetShuffleButton extends ConsumerWidget {
   @override
   Widget build(context, ref) {
     return StreamBuilder(
-      stream: ref.read(audioPlayerProvider)?.listenToShuffle,
+      stream: ref.read(audioPlayerProvider).value?.listenToShuffle,
       builder: (context, snapshot) {
         return IconButton(
           color: Theme.of(context).colorScheme.onSurface,

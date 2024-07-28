@@ -17,10 +17,10 @@ class CollectionAudiosScreen extends ConsumerWidget {
         title: Text(collection.name),
       ),
       floatingActionButton: StreamBuilder<bool>(
-          stream: ref.watch(audioPlayerProvider)?.musicActiveStream,
+          stream: ref.watch(audioPlayerProvider).value?.musicActiveStream,
           builder: (context, musicActiveSnapshot) {
             return StreamBuilder<bool>(
-              stream: ref.read(audioPlayerProvider)?.listenToPlayingState,
+              stream: ref.read(audioPlayerProvider).value?.listenToPlayingState,
               builder: (context, playingSnapshot) {
                 final musicActive = musicActiveSnapshot.data;
                 final isPlaying = playingSnapshot.data;
