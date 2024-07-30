@@ -1,5 +1,5 @@
 import 'package:beatz/shared/helpers/intent_helpers.dart';
-import 'package:beatz/src/presentation/controllers/audio_player_provider.dart';
+import 'package:beatz/src/features/audio_player/presentation/contollers/audio_player_provider.dart';
 import 'package:beatz/src/presentation/screens/folder%20screen/folder_screen.dart';
 import 'package:beatz/src/presentation/screens/library/library_screen.dart';
 import 'package:beatz/src/presentation/screens/more%20screen/more_screen.dart';

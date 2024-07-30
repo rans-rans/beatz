@@ -1,4 +1,4 @@
-import 'package:beatz/src/presentation/screens/music%20player/audio_player_screen.dart';
+import 'package:beatz/src/features/audio_player/presentation/screens/audio_player_screen.dart';
 import 'package:flutter/material.dart';
 
 class NavigateToMusicPlayerAnimation extends PageRouteBuilder {

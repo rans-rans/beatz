@@ -7,7 +7,7 @@ import 'package:beatz/src/data/datasource/shared_preferences_datasource.dart';
 import 'package:beatz/src/data/repositories/just_audio_datasource.dart';
 import 'package:beatz/src/domain/entities/models/audio.dart';
 import 'package:beatz/src/domain/entities/models/history_audio.dart';
-import 'package:beatz/src/domain/repositories/audio_player_repo.dart';
+import 'package:beatz/src/features/audio_player/domain/repositories/audio_player_repo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AudioPlayerProvider extends AsyncNotifier<AudioPlayerRepo?> {
@@ -33,21 +33,21 @@ class AudioPlayerProvider extends AsyncNotifier<AudioPlayerRepo?> {
   Future<void> initialize(String audioPath) async {
     if (state.value != null && currentAudioPath == audioPath) return;
     await disposePlayer();
+    await _registerAudioToFuture([audioPath]);
     state = AsyncValue.data(JustAudioDatasource());
     _currentChildren = [Audio(path: audioPath)];
     await state.value?.setAudioSource(sources: _currentChildren);
     state.value?.play();
-    await _registerAudioToFuture([audioPath]);
   }
 
   Future<void> initializePlaylist(List<String> audioPaths) async {
     await disposePlayer();
     _currentChildren = audioPaths.map((e) => Audio(path: e)).toList();
+    await _registerAudioToFuture(audioPaths);
     state = AsyncValue.data(JustAudioDatasource());
     await state.value?.setAudioSource(sources: _currentChildren);
     await state.value?.setShuffledEnabled(shuffuleEnabled);
     state.value?.play();
-    await _registerAudioToFuture(audioPaths);
   }
 
   Future<void> disposePlayer() async {
@@ -80,7 +80,7 @@ class AudioPlayerProvider extends AsyncNotifier<AudioPlayerRepo?> {
   Future<void> _registerAudioToFuture(List<String> audioPaths) async {
     final transformedAudios = audioPaths
         .map((e) => HistoryAudio(audioPath: e, lastPlayed: DateTime.now()));
-    while (_historyAudios.length > 30) {
+    while (_historyAudios.length >= 30) {
       _historyAudios.removeLast();
     }
     _historyAudios = [...transformedAudios, ..._historyAudios];

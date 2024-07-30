@@ -4,7 +4,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 import 'package:beatz/shared/helpers/helper_functions.dart';
 import 'package:beatz/src/domain/entities/enums/shuffle_mode.dart';
 import 'package:beatz/src/domain/entities/models/audio.dart';
-import 'package:beatz/src/domain/repositories/audio_player_repo.dart';
+import 'package:beatz/src/features/audio_player/domain/repositories/audio_player_repo.dart';
 
 class JustAudioDatasource implements AudioPlayerRepo {
   final player = AudioPlayer();

@@ -1,4 +1,4 @@
-import 'package:beatz/src/presentation/controllers/audio_player_provider.dart';
+import 'package:beatz/src/features/audio_player/presentation/contollers/audio_player_provider.dart';
 import 'package:beatz/src/presentation/controllers/audio_view_provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

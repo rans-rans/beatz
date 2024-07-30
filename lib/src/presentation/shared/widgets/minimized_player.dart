@@ -1,8 +1,8 @@
 import 'package:beatz/shared/animations/page_animations/navigate_to_music_player_animation.dart';
 import 'package:beatz/shared/constants/number_constants.dart';
-import 'package:beatz/src/presentation/controllers/audio_player_provider.dart';
+import 'package:beatz/src/features/audio_player/presentation/contollers/audio_player_provider.dart';
 import 'package:beatz/src/presentation/controllers/audio_view_provider.dart';
-import 'package:beatz/src/presentation/screens/music%20player/widgets/play_pause_button.dart';
+import 'package:beatz/src/features/audio_player/presentation/widgets/play_pause_button.dart';
 import 'package:beatz/src/presentation/shared/widgets/now_playing_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
