@@ -5,7 +5,7 @@ import 'package:beatz/src/domain/entities/models/collection.dart';
 import 'package:beatz/src/domain/repositories/playlist_repo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PlaylistProvider extends AsyncNotifier<List<Collection>> {
+class PlaylistProvider extends AsyncNotifier<List<Collection>> {  
   final PlaylistRepository _playlistRepo;
   PlaylistProvider(this._playlistRepo) : super();
 
